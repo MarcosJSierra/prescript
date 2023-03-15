@@ -87,7 +87,7 @@ Install()
     #upackaging and Creating Symbolic link
     echo "Fase 4"
     sudo -K
-    sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ --strip-components=1
+    sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ 
     sudo -S ln -s /opt/tomcat/apache-tomcat-$TOMCAT_VERSION /opt/tomcat/latest
 
     echo "Fase 5"

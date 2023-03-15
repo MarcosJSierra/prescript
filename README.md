@@ -1,0 +1,2 @@
+# prescript
+Script for deploy

@@ -11,7 +11,7 @@
 # DIRECTORY_APP="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/empleos"
 DIRECTORY_APP="/home/marcos/prueba" 
 DIRECTORY_APPS_TOMCAT="/var/lib/tomcat10/webapps"
-SCRIPT_LOCATION="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/codigo"
+SCRIPT_LOCATION="home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/prescript"
 
 
 : '
@@ -45,6 +45,7 @@ INSTALL_COMMAND="install"
 UPDATE_COMMAND="update"
 
 
+
 Help()
 {
     echo "Script for install and deploy Capa Media API in Tomcat 10 Server"
@@ -69,54 +70,69 @@ Deploy()
 }
 
 Install()
-{
-    echo "Fase 1"
-     sudo -K
-     sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND 
-     sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven
-    # 
-    # Tomcat 10 Install
-    # 
-    #Add users
-    echo "Fase 2"
-    sudo -K
-    sudo -S useradd -m -U -d /opt/tomcat -s /bin/false tomcat
-    # Downloading Tomcat
-    echo "Fase 3"
-    wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz -P /tmp
-    #upackaging and Creating Symbolic link
-    echo "Fase 4"
-    sudo -K
-    sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ 
-    sudo -S ln -s /opt/tomcat/apache-tomcat-$TOMCAT_VERSION /opt/tomcat/latest
+{    
+    if [ $SCRIPT_LOCATION = "cambiar" ]; then
+        ErrorHeader
+        echo "ERROR:"
+        echo "  No se ha cambiado la variable SCRIPT_LOCATION"
+    else
 
-    echo "Fase 5"
-    #Changing owner and permissions to files
-    sudo -K
-    sudo -S chown -R tomcat: /opt/tomcat
-    sudo -S sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
-    
-    echo "Fase 6"
-    #Creaing service file
-    sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /etc/systemd/system/
-    sudo -S systemctl daemon-reload
-    sudo -S systemctl enable --now tomcat
+        if [ -d $SCRIPT_LOCATION ] && [ -f "${SCRIPT_LOCATION}/configDocs/server.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/web.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat-users.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat.service" ];  then
+            echo "Fase 1"
+            sudo -K
+            sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND 
+            sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven
+            # 
+            # Tomcat 10 Install
+            # 
+            #Add users
+            echo "Fase 2"
+            sudo -K
+            sudo -S useradd -m -U -d /opt/tomcat -s /bin/false tomcat
+            # Downloading Tomcat
+            echo "Fase 3"
+            wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz -P /tmp
+            #upackaging and Creating Symbolic link
+            echo "Fase 4"
+            sudo -K
+            sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ 
+            sudo -S ln -s /opt/tomcat/apache-tomcat-$TOMCAT_VERSION /opt/tomcat/latest
 
-    echo "Fase 7"
-    #config firewall
-    sudo -K
-    sudo -S ufw allow 8080/tcp
+            echo "Fase 5"
+            #Changing owner and permissions to files
+            sudo -K
+            sudo -S chown -R tomcat: /opt/tomcat
+            sudo -S sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+            
+            echo "Fase 6"
+            #Creaing service file
+            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /etc/systemd/system/
+            sudo -S systemctl daemon-reload
+            sudo -S systemctl enable --now tomcat
 
-    echo "Fase 8"
-    # # Config tomcat gui
-    # sudo -S rm /opt/tomcat/latest/conf/tomcat-users.xml
-    # sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /opt/tomcat/latest/conf/tomcat-users.xml
+            echo "Fase 7"
+            #config firewall
+            sudo -K
+            sudo -S ufw allow 8080/tcp
 
-    # sudo -S rm /opt/tomcat/latest/conf/server.xml
-    # sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /opt/tomcat/latest/conf/server.xml
+            echo "Fase 8"
+            # # Config tomcat gui
+            sudo -S rm /opt/tomcat/latest/conf/tomcat-users.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat-users.xml /opt/tomcat/latest/conf/tomcat-users.xml
 
-    # sudo -S rm /opt/tomcat/latest/conf/web.xml
-    # sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /opt/tomcat/latest/conf/web.xml
+            sudo -S rm /opt/tomcat/latest/conf/server.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/server.xml /opt/tomcat/latest/conf/server.xml
+
+            sudo -S rm /opt/tomcat/latest/conf/web.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/web.xml /opt/tomcat/latest/conf/web.xml
+            sudo systemctl restart tomcat
+        else 
+            echo "ERROR:"
+            echo "  Verifique las siguientes opciones de error:"
+            echo "    * Que la direccion de SCRIPT_LOCATION sea valida, es decir, que incie con / y no finalice con /"
+            echo "    * Que dentro de la localizacion a la que apunta SCRIPT_LOCATION se encuentre el directorio configDocs junto con los archivos web.xml, server.xml, tomcat-users.xml y tomcat.service"            
+        fi
+    fi
 
 }
 

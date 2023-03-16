@@ -1984,87 +1984,7 @@
     </mime-mapping>
     <mime-mapping>
         <extension>iges</extension>
-        <mime-type>model/iges</mime-type>   
-    </mime-mapping>    
-    <mime-mapping>
-        <extension>icc</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ice</extension>
-        <mime-type>x-conference/x-cooltalk</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>icm</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ico</extension>
-        <mime-type>image/x-icon</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ics</extension>
-        <mime-type>text/calendar</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ief</extension>
-        <mime-type>image/ief</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ifb</extension>
-        <mime-type>text/calendar</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ifm</extension>
-        <mime-type>application/vnd.shana.informed.formdata</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iges</extension>
         <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igl</extension>
-        <mime-type>application/vnd.igloader</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igm</extension>
-        <mime-type>application/vnd.insors.igm</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igs</extension>
-        <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igx</extension>
-        <mime-type>application/vnd.micrografx.igx</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iif</extension>
-        <mime-type>application/vnd.shana.informed.interchange</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>imp</extension>
-        <mime-type>application/vnd.accpac.simply.imp</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ims</extension>
-        <mime-type>application/vnd.ms-ims</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>in</extension>
-        <mime-type>text/plain</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ink</extension>
-        <mime-type>application/inkml+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>inkml</extension>
-        <mime-type>application/inkml+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>install</extension>
-
     </mime-mapping>
     <mime-mapping>
         <extension>igl</extension>
@@ -4051,85 +3971,39 @@
         <extension>ttc</extension>
         <mime-type>font/collection</mime-type>
     </mime-mapping>
-    <mime-mapping>   <mime-mapping>
-        <extension>icc</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>font/ttf</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ice</extension>
-        <mime-type>x-conference/x-cooltalk</mime-type>
+        <extension>ttl</extension>
+        <mime-type>text/turtle</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>icm</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
+        <extension>twd</extension>
+        <mime-type>application/vnd.simtech-mindmapper</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ico</extension>
-        <mime-type>image/x-icon</mime-type>
+        <extension>twds</extension>
+        <mime-type>application/vnd.simtech-mindmapper</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ics</extension>
-        <mime-type>text/calendar</mime-type>
+        <extension>txd</extension>
+        <mime-type>application/vnd.genomatix.tuxedo</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ief</extension>
-        <mime-type>image/ief</mime-type>
+        <extension>txf</extension>
+        <mime-type>application/vnd.mobius.txf</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ifb</extension>
-        <mime-type>text/calendar</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ifm</extension>
-        <mime-type>application/vnd.shana.informed.formdata</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iges</extension>
-        <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igl</extension>
-        <mime-type>application/vnd.igloader</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igm</extension>
-        <mime-type>application/vnd.insors.igm</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igs</extension>
-        <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igx</extension>
-        <mime-type>application/vnd.micrografx.igx</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iif</extension>
-        <mime-type>application/vnd.shana.informed.interchange</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>imp</extension>
-        <mime-type>application/vnd.accpac.simply.imp</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ims</extension>
-        <mime-type>application/vnd.ms-ims</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>in</extension>
+        <extension>txt</extension>
         <mime-type>text/plain</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ink</extension>
-        <mime-type>application/inkml+xml</mime-type>
+        <extension>u32</extension>
+        <mime-type>application/x-authorware-bin</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>inkml</extension>
-        <mime-type>application/inkml+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>install</extension>
-
         <extension>udeb</extension>
         <mime-type>application/x-debian-package</mime-type>
     </mime-mapping>
@@ -4354,85 +4228,20 @@
         <mime-type>application/vnd.vsf</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>vss</extension>   <mime-mapping>
-        <extension>icc</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
+        <extension>vss</extension>
+        <mime-type>application/vnd.visio</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ice</extension>
-        <mime-type>x-conference/x-cooltalk</mime-type>
+        <extension>vst</extension>
+        <mime-type>application/vnd.visio</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>icm</extension>
-        <mime-type>application/vnd.iccprofile</mime-type>
+        <extension>vsw</extension>
+        <mime-type>application/vnd.visio</mime-type>
     </mime-mapping>
     <mime-mapping>
-        <extension>ico</extension>
-        <mime-type>image/x-icon</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ics</extension>
-        <mime-type>text/calendar</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ief</extension>
-        <mime-type>image/ief</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ifb</extension>
-        <mime-type>text/calendar</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ifm</extension>
-        <mime-type>application/vnd.shana.informed.formdata</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iges</extension>
-        <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igl</extension>
-        <mime-type>application/vnd.igloader</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igm</extension>
-        <mime-type>application/vnd.insors.igm</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igs</extension>
-        <mime-type>model/iges</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>igx</extension>
-        <mime-type>application/vnd.micrografx.igx</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>iif</extension>
-        <mime-type>application/vnd.shana.informed.interchange</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>imp</extension>
-        <mime-type>application/vnd.accpac.simply.imp</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ims</extension>
-        <mime-type>application/vnd.ms-ims</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>in</extension>
-        <mime-type>text/plain</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>ink</extension>
-        <mime-type>application/inkml+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>inkml</extension>
-        <mime-type>application/inkml+xml</mime-type>
-    </mime-mapping>
-    <mime-mapping>
-        <extension>install</extension>
-
+        <extension>vtu</extension>
+        <mime-type>model/vnd.vtu</mime-type>
     </mime-mapping>
     <mime-mapping>
         <extension>vxml</extension>
@@ -4928,7 +4737,7 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
-    <!-- CORS -->
+<!-- CORS -->
 
     <filter>
         <filter-name>CorsFilter</filter-name>
@@ -4975,5 +4784,5 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
 </web-app>
+

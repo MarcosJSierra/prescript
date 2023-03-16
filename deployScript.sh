@@ -1,5 +1,8 @@
 #!/bin/bash
-#Script diseñado
+: '
+    Este script tiene como cometido el facilitar el proceso de instalación de paquetes dentro de sistemas operativos Ubuntu.
+
+'
 
 : '
     CONFIGURACION DE PATHS PARA LOCALIZACION DE APLICACION, HERRAMIENTAS Y SCRIPT
@@ -9,9 +12,9 @@
 
 '
 # DIRECTORY_APP="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/empleos"
-DIRECTORY_APP="/home/marcos/prueba" 
+DIRECTORY_APP="cambiar" 
 DIRECTORY_APPS_TOMCAT="/var/lib/tomcat10/webapps"
-SCRIPT_LOCATION="home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/prescript"
+SCRIPT_LOCATION="/home/CHANGE/Documentos/prescript"
 
 
 : '
@@ -20,17 +23,15 @@ SCRIPT_LOCATION="home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_emp
 
 '
 TOMCAT_VERSION=10.1.7
-
+TOMCAT_PORT=8080
 
 
 : '
     CONFIGURACION DE INFORMACION DEL PROYECTO
-    - WAR_NAME: nombre con el que se generara el archivo war.
-    - DIRECTORY_APPS_TOMCAT: localicación del directorio webapps para el despliegue de los archivos war.
-    - SCRIPT_LOCATION: localizacion del script que debe tener tanto el archivo de script como la carpeta configDocs.
+    - APP_NAME: El nombre con el que se genera el archivo de la aplicación.
 
 '
-WAR_NAME="aplicacionEmpleos.war"
+APP_NAME="aplicacionEmpleos"
 
 
 : '
@@ -54,69 +55,102 @@ Help()
     echo "Options: "
     echo "h     Display help info"
     echo "d     compile, package and deploy project in Tomcat 10"
-    echo "i     install all software required"
-    echo "g     realice project git pull"
+    echo "i     install and configure all software required"
 }
 
 Deploy()
 {
-    echo "deploy"
-    cd $DIRECTORY_APP || echo "No Home directory found" 
-    mvn -v || echo "No maven found"
-    mvn clean install
-    sudo -K 
-    sudo -S scp ./target/$WAR_NAME $DIRECTORY_APPS_TOMCAT
-    ls $DIRECTORY_APPS_TOMCAT
+
+    if [ -f "/path/to/file" ]; then
+        echo "File \"/path/to/file\" exists"
+    fi
+    
+
+    if [ "$(mvn -v)" ]; then
+        if [ -d  $DIRECTORY_APP ] && [ -d $DIRECTORY_APPS_TOMCAT ]; then
+            cd $DIRECTORY_APP || echo ""
+            if [ -f ./pom.xml ]; then
+                
+                mvn clean install
+                ls $DIRECTORY_APP/target
+                 if [ -f $DIRECTORY_APP/target/$APP_NAME.war ]; then
+                    sudo -K 
+                    # sudo -S rm 
+                    sudo -S cp $DIRECTORY_APP/target/$APP_NAME.war $DIRECTORY_APPS_TOMCAT
+                    if [ -f $DIRECTORY_APPS_TOMCAT/$APP_NAME.war ]; then
+                        echo "Proceso completado"
+                    fi
+                 else
+                    echo "ERROR:"
+                    echo "  No se encontro el archivo ${WAR_NAME} por favor revise los siguientes puntos:"
+                    echo "    * Que se haya generado correctamente el archivo WAR"
+                    echo "    * Que se tengas las confugraciones correctas en POM.xml"
+                 fi
+            else 
+                echo "ERROR:"
+                echo "  No se ha encontrado nignun archivo POM.xml en el directorio ${DIRECTORY_APP}"
+            fi  
+
+        else
+            echo "ERROR:"
+            echo "  No existe alguno de los siguientes directorios, por favor revise la sintaxis de la variable o bien revise que existan los directorios"
+            echo "    * ${DIRECTORY_APP}"
+            echo "    * ${DIRECTORY_APPS_TOMCAT}"
+    
+        fi 
+    else
+        echo "ERROR:"
+        echo "  No se ha encontrado una versión instalada de Maven, por favor instale maven y vuelva a intentar el despliegue"
+    
+        
+    fi
 }
 
 Install()
 {    
-    if [ $SCRIPT_LOCATION = "cambiar" ]; then
-        ErrorHeader
+    if [ -d $SCRIPT_LOCATION ]; then
         echo "ERROR:"
         echo "  No se ha cambiado la variable SCRIPT_LOCATION"
     else
 
         if [ -d $SCRIPT_LOCATION ] && [ -f "${SCRIPT_LOCATION}/configDocs/server.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/web.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat-users.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat.service" ];  then
-            echo "Fase 1"
+            
+            : '
+                Instalación de paquetes y librerias para el funcionamiento del proyecto.
+            '
             sudo -K
             sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND 
             sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven
-            # 
-            # Tomcat 10 Install
-            # 
-            #Add users
-            echo "Fase 2"
+            
+
+            : '
+                Descarga de tomcat e instalación en el sistema operativo.
+            '
             sudo -K
             sudo -S useradd -m -U -d /opt/tomcat -s /bin/false tomcat
-            # Downloading Tomcat
-            echo "Fase 3"
             wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz -P /tmp
-            #upackaging and Creating Symbolic link
-            echo "Fase 4"
-            sudo -K
             sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ 
             sudo -S ln -s /opt/tomcat/apache-tomcat-$TOMCAT_VERSION /opt/tomcat/latest
 
-            echo "Fase 5"
-            #Changing owner and permissions to files
+            : '
+                configuraciones del sistema para tomcat
+            '
             sudo -K
             sudo -S chown -R tomcat: /opt/tomcat
             sudo -S sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
-            
-            echo "Fase 6"
-            #Creaing service file
             sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /etc/systemd/system/
             sudo -S systemctl daemon-reload
             sudo -S systemctl enable --now tomcat
 
-            echo "Fase 7"
-            #config firewall
+            : '
+                Configuración de el firewall
+            '
             sudo -K
-            sudo -S ufw allow 8080/tcp
+            sudo -S ufw allow $TOMCAT_PORT/tcp
 
-            echo "Fase 8"
-            # # Config tomcat gui
+            : '
+                Actualizacion de los archivos de configuracion de tomcat
+            '
             sudo -S rm /opt/tomcat/latest/conf/tomcat-users.xml
             sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat-users.xml /opt/tomcat/latest/conf/tomcat-users.xml
 
@@ -139,8 +173,7 @@ Install()
 
 while getopts "hdi" option; do
     case $option in
-        h) echo "hola"
-        Help
+        h) Help
         exit;;
         d) Deploy
         exit;;
@@ -148,7 +181,7 @@ while getopts "hdi" option; do
         exit;;
         \?) #Invalid Option
         echo "Error: Invalid Option"
+        Help
         exit;;
     esac
 done
-

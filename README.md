@@ -1,18 +1,17 @@
 # Maven Application Compile and Deploy 
 
-This script is intended to facilitate the process of install the basics tools to work with a maven project. This includes install Java, Maven, Tomcat, configurations of tomcat and system.
-
-Also this script includes the posibility of create a war file and move it to the tomcat webapps folder to autodeploy this app. 
+Este script tiene la intención de facilitar el proceso de instalar las herramientas basicas necesarias para trabajar y ejecutar el proeyecto de Maven. Esto incluye la instalación de Java Maven y Tomcat, asi como las configuraciones necesarias para hacer funcionar. Este script incluye la función de generar el archivo War del proyecto y desplegarlo dentro del servidor de Tomcat.
 
 ## System preparation
 
-The first should be upgrade the system, so we will use the next command
+Lo primero que debemos hacer es actualizar el sistema, por lo que utilizaremos el siguiente comando
 
 ```console
    sudo apt dit-upgrade
 ```
 
-Then we will need to install and configure GIT to get acces to the repository with the script.
+Ahora instalaremos y configuraremos git.
+
 
 ```
    sudo apt install git
@@ -20,39 +19,42 @@ Then we will need to install and configure GIT to get acces to the repository wi
 
 ## Script functions
 
-The Script have two principal functions, first install all the tools needed to compile and install a proyect with maven. 
+El script como tal tiene dos funciones principales, la primera es instalar todas las herramientas necesarias para compilar e instalar el proyecto con maven. 
 
-The first thing is get the repo to the machine. It's recommended to clone it in Documents since this directory is set by default in the script settings, requiring minimal changes to work.
+Lo primero sera obter el repositorio. Lo recomendable es clonar el repositorio en Documents ya que algunas configuraciones vienen escritas para funcionar en este directorio y requieren cambios minimos. 
 
 ```console
    cd ~/Documents
    git clone https://github.com/MarcosJSierra/prescript.git
 ```
-This repo contains two thing, the script itself and a folder called _confiDocs_. In the folder we have the configurations files for Tomcat. We need to make some changes in the script. First we need to change the variable [SCRIPT_LOCATTION](./deployScript.sh#L17) (Click the link to see the line) for this we have two options. First just change the word CHANGE for the username or we can replace the full text. For the second option we will use the comand _pwd_
+Este repositorio contiene dos elementos, el primero seria el script en si mismo mientras el segundo seria un folder llamado _configDocs_, en este folder se encuentran los archivos de configuración para Tomcat. Pero para que funcione es neseario hacer algunos cambios en el Script. Primero que nada necesitamos cambiar la variable [SCRIPT_LOCATTION](./deployScript.sh#L17) (El enlace anterior nos lleva a la linea del script) para esto tenemos dos opciones, la primera seria verificar que lo unico que cambie con la ruta actual del script y la carpeta sea el nombre de usuario, en dado caso unciamente tendriamos que hacer este cambio. La segunda opción seria usar el comando _pwd_. 
 
 ```console
 cd ~/Documents/prescript
 pwd
 ```
 
-this will show the full path to the script folder container and we can copy this with CTRL+SHIFT+C. Then we need to edit the file. 
+Este comando nos mostrara en pantalla la direccion en la que nos encontramos, en esta caso deberia ser donde esta el Script, basta con seleccionar la linea y utilizar CTRL+SHIFT+C para copiarlo. Luego editaremos el script sustituyendo la ruta anterior con la nueva.  
+
 ```
    nano ./deployScript.sh
 ```
-Then we replace the direction of the script using CTRL+SHIFT+V. To save in nano we only ned to press CTRL + X, then press _y_ and Enter.
+para pegar el contenido basta con utilizar CTRL+SHIFT+V. Para guardar los cambios con nano cerraremos el editor con CTRL + X, luego presionaremos _y_ y Enter.
 
-### Instalation
+### Instalación
 
-Before the installation its important to make some changes. First we need to define passwords for the users in Tomcat GUI. To make this edit the next file:
+Antes de ejecutar la propiedad de instalación en el Script se deben hacer algunos cambios. Primero es aconsejable cambiar las contraseñas de los usuarios para el GUI de Tomcat. Para esto editaremos el siguiente archivo en la linea 64:
+
    * [tomcat-users.xml](./configDocs/tomcat-users.xml#L64) 
 
-To run the script to install all the tools we only need to be in the directory and execute it. If you want to change the port of execution you can change the file [server.xml](./configDocs/server.xml#L68) but also change the script updating the varialbe [TOMCAT_PORT](./deployScript.sh#L26)
+Para ejecutar el Script lo unico que necesitamos, luego de los cambios anteriores, es ir al lugar donde almacenamos el Script. Si se desea cambiar el puerto de escucha de Tomcat podemos cambiar el siguiente archivo, en la linea 68, [server.xml](./configDocs/server.xml#L68) y tambien, en dado caso, debemos cambiar el script para configurar el firewall [TOMCAT_PORT](./deployScript.sh#L26). Para ejecutar el Script usremos los siguientes comandos.
+
 ```
 cd ~/Documents/prescript
 ./deployScript -i
 ```
 
-The property _-i_ is for installation. With this automatically will update repositorys and install the latest version of Open JDK 17, also will download the tomcat server files. Then will realize all the required configurations to make Tomcat work. This will require the users password a few times so put it some atention while its working. At the end of the process tomcat can be administrated via sysmtectl with the next commands
+La propiedad _-i_ es la utilizada para la instalación. El script actualizara los repositorios del sistema e instalara la ultima versión de Java 17, tambien descargara la versión indicada de tomcat y hara todas las configuraciones necesarias para que Tomcat funcione. En algunos momentos de la ejecución solicitara la contraseña del usuario por lo que es necesario estar atento para introducir la misma. Una vez se ha completado el proceso es posible controlar Tomcat por medio de Systemctl con los siguientes comandos.
 
 * sudo systemctl start tomcat 
 * sudo systemctl stop tomcat 
@@ -60,23 +62,23 @@ The property _-i_ is for installation. With this automatically will update repos
 * sudo systemctl status tomcat 
 
 ### Deploy 
-The Deploy Function requires some other changes. First we need to get the project to deploy. Then wee need to set the directory where the project is in the [deployScript](./deployScript.sh#L15) variable DIRECTORY_APP. Also we need to verify the path to webapp folder is the same for your system becouse its set to the default path for Ubuntu but it can change if you are using other distribution. Also we need to change the name of the variable APP_NAME to the name that gets tha war file will be generated. 
+La función de despliegue requiere de otros cambios. Lo primero es que debemos obtener el proyecto a deployar. Luego necesitamos definir dentro del script el directorio donde el proyecto se encuenta, esto lo haremos en la  variable DIRECTORY_APP del archvio [deployScript](./deployScript.sh#L15). Tambien debemos verificar que el path hacia la carpeta Webapp de Tomcat, que es donde almacena los archivos war, sea la misma para nuestro SO, en el caso del script esta configurado para funcionar en Ubuntu, pero por ejemplo en Arch Linux el path se encuentra en _/var/lib/tomcatn/webapps_. Tambien dentro del script debemos verificar que el nombre del archivo war generado coinicda con la variable APP_NAME. 
 
-We supose the project its actually configurated to create a war for deploying in independent Tomcat. With all this we only need to run the script with the -d parameter. 
+> En este punto suponemos que el proyecto esta configurado para generar un archivo war por medio de los comandos de maven, asi como generarlo con el nombre que se ha indicado en el script. 
 ```
 cd ~/Documents/prescript
 ./deployScript -d
 ```
-This will require the password to make some operationts so give it some atenttion while is working. 
+Al igual que con isntalación nos pedira la contraseña en algun momento por lo que es importante estar atento. 
 
 ### Help
-The script contains a little help if you don´t remember what makes the parammeters so you can use
+El comando -h nos desplegara una pequeña ayuda de los parametros aceptados por el 
 ```
 ./deployScipt -h
 ```
 
 ## Deploying Spring Boot App in a external Tomcat Server 
-To deploy the app in a external tomcat server its needed to make some changes. The first its to comment the port configurations in Spring properties. Then we need to add the next dependency to the pom.xml
+Para poder desplegar una aplicación de Springboot sobre un servidor Tomcat Externo es necesario verificar algunas cosas. Lo primero es ver que dentro de properties no se tenga configurado un puerto de ejecución, y si se tiene uno es necesario comentar esta linea. Segundo debemos agregar la siguiente dependencia al pom.xml de nuestro proyecto.
 ```XML
    <dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -84,13 +86,13 @@ To deploy the app in a external tomcat server its needed to make some changes. T
 			<scope>provided</scope>
 		</dependency>
 ```
-Another change to make is after the project description we have to add the next property
+Otro cambio necesario es agregar la propiedad packaging a nuestro pom. 
 ```XML
    <name>prueba</name>
 	<description>Prueba de despliegue en Tomcat10</description>
 	<packaging>war</packaging>
 ```
-Finally at the build section we need to add the property finalName. This property it's very important since this is the name of the war file we will generate. 
+Finalmente, si queremos que el archivo war se genere siempre  con el mismo nombre debemos utilizar la propiedad finalName dentro de Build en el pom.
 ```XML
 <build>
 		<finalName>aplicacionEmpleos</finalName>

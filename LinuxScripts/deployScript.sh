@@ -13,7 +13,7 @@
 '
 # DIRECTORY_APP="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/empleos"
 DIRECTORY_APP="cambiar"
-DIRECTORY_APPS_TOMCAT="/var/lib/tomcat10/webapps"
+DIRECTORY_APPS_TOMCAT="/var/lib/tomcat9/webapps"
 SCRIPT_LOCATION="${HOME}/prescript"
 
 : '
@@ -21,7 +21,6 @@ SCRIPT_LOCATION="${HOME}/prescript"
     - TOMCAT_VERSION: version de tomcat para su descarga o actualizacion.
 
 '
-TOMCAT_VERSION=10.1.7
 TOMCAT_PORT=8080
 
 : '
@@ -107,7 +106,7 @@ Install() {
             '
         sudo -K
         sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND
-        sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven tomcat9 tomcat9-admin tomcat9-docs tomcat9-examples tomcat9-common
+        sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven tomcat9 tomcat9-admin tomcat9-docs tomcat9-examples tomcat9-common tomcat9-user
 
         : '
                 Configuración de el firewall
@@ -119,6 +118,14 @@ Install() {
                 Actualizacion de los archivos de configuracion de tomcat
             '
         if [ -f /etc/tomcat9/tomcat-users.xml ] && [ -f /etc/tomcat9/server.xml ] && [ -f /etc/tomcat9/web.xml ]; then
+
+            sudo -S rm /etc/systemd/system/multi-user.target.wants/tomcat9.service
+            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat9.service /etc/systemd/system/multi-user.target.wants/tomcat9.service
+            sudo -S systemctl daemon-reload
+            sudo -S systemctl enable tomcat9
+            sudo -S systemctl start tomcat9
+
+            
             sudo -S rm /etc/tomcat9/tomcat-users.xml
             sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat-users.xml /etc/tomcat9/tomcat-users.xml
 

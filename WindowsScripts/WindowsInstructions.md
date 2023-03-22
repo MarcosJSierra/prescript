@@ -17,8 +17,21 @@ git clone https://github.com/MarcosJSIerra/prescript.git
 cd C:\prescript
 ```
 
+> Es important etener en cuenta que los archivos de configuración incluyen los usuarios de acceso a Tomcat, es recomendable cambiar la contraseña de los mismos en el archivo [tomcat-users.xml](../configDocs/tomcat-users.xml#L64)
+
 Ahora con esto listo podemos proceder a ejecutar el script. El script instalara y configurara tanto Java 17, como maven y Tomcat.
 
 ```shell
 .\insatalationScriptWindows.ps1
 ```
+
+Una vez realizado esto, el siguiente paso seria iniciar el servicio de Tomcat dentro de Windows. Para esto:
+  
+* Hacer clic en el boton de inicio.
+* Buscar "Service" en las aplicaciones
+* Dentro del GUI vamos a buscar services > Tomcat 9
+* Haremos doble click sobre el mismo.
+* Seleccionaremos "Automatico" en el incio del servicio
+* Iniciaremos el servicio
+  
+Ahora tendremos un Tomcat completamente funcional.

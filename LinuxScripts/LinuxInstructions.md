@@ -69,7 +69,7 @@ La propiedad _-i_ es la utilizada para la instalación. El script actualizara lo
 La función de despliegue del config server, en caso se utilice alguno, requiere algunos cambios requiere de otros cambios. Lo primero es que debemos obtener el proyecto a deployar. Luego necesitamos definir dentro del script el directorio donde el proyecto se encuenta, esto lo haremos en la  variable CONFIG_SERVER_DIRECTORY del archvio [deployScript](./deployScript.sh#L17) y cambiar tambien el nombre que tendra el archivo _.war_ sin su extensión. Tambien debemos verificar que el path hacia la carpeta Webapp de Tomcat, que es donde almacena los archivos war, sea la misma para nuestro SO, en el caso del script esta configurado para funcionar en Ubuntu, pero por ejemplo en Arch Linux el path se encuentra en _/var/lib/tomcatn/webapps_. Tambien dentro del script debemos verificar que el nombre del archivo war generado coinicda con la variable APP_NAME.
 
 > En este punto suponemos que el proyecto esta configurado para generar un archivo war por medio de los comandos de maven, asi como generarlo con el nombre que se ha indicado en el script.
-> Es importante recordar que el nombre del proyecto se obtiene de varios parametros dentro del pom o bien del tag _finalName_ que se encuentra en el POM
+> Es importante recordar que el nombre del proyecto se obtiene de varios parametros dentro del pom o bien del tag _finalName_ que se encuentra en el POM y si no se encuentra este finalName se obtiene de artifactid-version.war
 
 ```console
 cd ~/prescript
@@ -83,6 +83,7 @@ Al igual que con isntalación nos pedira la contraseña en algun momento por lo 
 La función de despliegue requiere de otros cambios. Lo primero es que debemos obtener el proyecto a deployar. Luego necesitamos definir dentro del script el directorio donde el proyecto se encuenta, esto lo haremos en la  variable DIRECTORY_APP del archvio [deployScript](./deployScript.sh#L15), tambien debemos asignar el nombre del proyecto que se va a desplegar en la variable APP_NAME. Tambien debemos verificar que el path hacia la carpeta Webapp de Tomcat, que es donde almacena los archivos war, sea la misma para nuestro SO, en el caso del script esta configurado para funcionar en Ubuntu, pero por ejemplo en Arch Linux el path se encuentra en _/var/lib/tomcatn/webapps_. Tambien dentro del script debemos verificar que el nombre del archivo war generado coinicda con la variable APP_NAME.
 
 > En este punto suponemos que el proyecto esta configurado para generar un archivo war por medio de los comandos de maven, asi como generarlo con el nombre que se ha indicado en el script.
+> Es importante recordar que el nombre del proyecto se obtiene de varios parametros dentro del pom o bien del tag _finalName_ que se encuentra en el POM y si no se encuentra este finalName se obtiene de artifactid-version.war
 
 ```console
 cd ~/prescript

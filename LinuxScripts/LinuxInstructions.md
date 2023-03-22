@@ -53,17 +53,17 @@ Antes de ejecutar la propiedad de instalación en el Script se deben hacer algun
 
 Para ejecutar el Script lo unico que necesitamos, luego de los cambios anteriores, es ir al lugar donde almacenamos el Script. Si se desea cambiar el puerto de escucha de Tomcat podemos cambiar el siguiente archivo, en la linea 68, [server.xml](./configDocs/server.xml#L68) y tambien, en dado caso, debemos cambiar el script para configurar el firewall [TOMCAT_PORT](./LinuxScripts/deployScript.sh#L26). Para ejecutar el Script usremos los siguientes comandos.
 
-```
+```console
 cd ~/prescript
 ./LinuxScripts/deployScript -i
 ```
 
 La propiedad _-i_ es la utilizada para la instalación. El script actualizara los repositorios del sistema e instalara la ultima versión de Java 17, tambien descargara la versión indicada de tomcat y hara todas las configuraciones necesarias para que Tomcat funcione. En algunos momentos de la ejecución solicitara la contraseña del usuario por lo que es necesario estar atento para introducir la misma. Una vez se ha completado el proceso es posible controlar Tomcat por medio de Systemctl con los siguientes comandos.
 
-* sudo systemctl start tomcat 
-* sudo systemctl stop tomcat 
-* sudo systemctl restart tomcat 
-* sudo systemctl status tomcat 
+* sudo systemctl start tomcat9
+* sudo systemctl stop tomcat9
+* sudo systemctl restart tomcat9
+* sudo systemctl status tomcat9
 
 ### Deploy 
 La función de despliegue requiere de otros cambios. Lo primero es que debemos obtener el proyecto a deployar. Luego necesitamos definir dentro del script el directorio donde el proyecto se encuenta, esto lo haremos en la  variable DIRECTORY_APP del archvio [deployScript](./deployScript.sh#L15). Tambien debemos verificar que el path hacia la carpeta Webapp de Tomcat, que es donde almacena los archivos war, sea la misma para nuestro SO, en el caso del script esta configurado para funcionar en Ubuntu, pero por ejemplo en Arch Linux el path se encuentra en _/var/lib/tomcatn/webapps_. Tambien dentro del script debemos verificar que el nombre del archivo war generado coinicda con la variable APP_NAME. 

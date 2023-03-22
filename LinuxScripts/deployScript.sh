@@ -12,10 +12,9 @@
 
 '
 # DIRECTORY_APP="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/empleos"
-DIRECTORY_APP="cambiar" 
+DIRECTORY_APP="cambiar"
 DIRECTORY_APPS_TOMCAT="/var/lib/tomcat10/webapps"
-SCRIPT_LOCATION="/home/CHANGE/Documentos/prescript"
-
+SCRIPT_LOCATION="${HOME}/prescript"
 
 : '
     CONFIGURACION DE TOMCAT
@@ -25,14 +24,12 @@ SCRIPT_LOCATION="/home/CHANGE/Documentos/prescript"
 TOMCAT_VERSION=10.1.7
 TOMCAT_PORT=8080
 
-
 : '
     CONFIGURACION DE INFORMACION DEL PROYECTO
     - APP_NAME: El nombre con el que se genera el archivo de la aplicación.
 
 '
 APP_NAME="aplicacionEmpleos"
-
 
 : '
     CONFIGURACION DE COMANDOS DEL SISTEMA
@@ -45,10 +42,7 @@ PACKAGE_MANAGER="apt"
 INSTALL_COMMAND="install"
 UPDATE_COMMAND="update"
 
-
-
-Help()
-{
+Help() {
     echo "Script for install and deploy Capa Media API in Tomcat 10 Server"
     echo
     echo "Syntax: deployCapaMedia [-h|d|a]"
@@ -58,110 +52,113 @@ Help()
     echo "i     install and configure all software required"
 }
 
-Deploy()
-{
+Deploy() {
 
     if [ -f "/path/to/file" ]; then
         echo "File \"/path/to/file\" exists"
     fi
-    
 
     if [ "$(mvn -v)" ]; then
-        if [ -d  $DIRECTORY_APP ] && [ -d $DIRECTORY_APPS_TOMCAT ]; then
+        if [ -d $DIRECTORY_APP ] && [ -d $DIRECTORY_APPS_TOMCAT ]; then
             cd $DIRECTORY_APP || echo ""
             if [ -f ./pom.xml ]; then
-                
+
                 mvn clean install
                 ls $DIRECTORY_APP/target
-                 if [ -f $DIRECTORY_APP/target/$APP_NAME.war ]; then
-                    sudo -K 
-                    # sudo -S rm 
+                if [ -f $DIRECTORY_APP/target/$APP_NAME.war ]; then
+                    sudo -K
+                    # sudo -S rm
                     sudo -S cp $DIRECTORY_APP/target/$APP_NAME.war $DIRECTORY_APPS_TOMCAT
                     if [ -f $DIRECTORY_APPS_TOMCAT/$APP_NAME.war ]; then
                         echo "Proceso completado"
                     fi
-                 else
+                else
                     echo "ERROR:"
                     echo "  No se encontro el archivo ${WAR_NAME} por favor revise los siguientes puntos:"
                     echo "    * Que se haya generado correctamente el archivo WAR"
                     echo "    * Que se tengas las confugraciones correctas en POM.xml"
-                 fi
-            else 
+                fi
+            else
                 echo "ERROR:"
                 echo "  No se ha encontrado nignun archivo POM.xml en el directorio ${DIRECTORY_APP}"
-            fi  
+            fi
 
         else
             echo "ERROR:"
             echo "  No existe alguno de los siguientes directorios, por favor revise la sintaxis de la variable o bien revise que existan los directorios"
             echo "    * ${DIRECTORY_APP}"
             echo "    * ${DIRECTORY_APPS_TOMCAT}"
-    
-        fi 
+
+        fi
     else
         echo "ERROR:"
         echo "  No se ha encontrado una versión instalada de Maven, por favor instale maven y vuelva a intentar el despliegue"
-    
-        
+
     fi
+
 }
 
-Install()
-{    
-    if [ -d $SCRIPT_LOCATION ]; then
-        echo "ERROR:"
-        echo "  No se ha cambiado la variable SCRIPT_LOCATION"
-    else
+Install() {
 
-        if [ -d $SCRIPT_LOCATION ] && [ -f "${SCRIPT_LOCATION}/configDocs/server.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/web.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat-users.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat.service" ];  then
-            
-            : '
+    if [ -d $SCRIPT_LOCATION ] && [ -f "${SCRIPT_LOCATION}/configDocs/server.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/web.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat-users.xml" ] && [ -f "${SCRIPT_LOCATION}/configDocs/tomcat.service" ]; then
+
+        : '
                 Instalación de paquetes y librerias para el funcionamiento del proyecto.
             '
-            sudo -K
-            sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND 
-            sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven tomcat9
-            
-            : '
+        sudo -K
+        sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND
+        sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven tomcat9 tomcat9-admin tomcat9-docs tomcat9-examples tomcat9-common
+
+        : '
                 Configuración de el firewall
             '
-            sudo -K
-            sudo -S ufw allow $TOMCAT_PORT/tcp
+        sudo -K
+        sudo -S ufw allow $TOMCAT_PORT/tcp
 
-            : '
+        : '
                 Actualizacion de los archivos de configuracion de tomcat
             '
-            sudo -S rm /opt/tomcat/latest/conf/tomcat-users.xml
-            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat-users.xml /opt/tomcat/latest/conf/tomcat-users.xml
+        if [ -f /etc/tomcat9/tomcat-users.xml ] && [ -f /etc/tomcat9/server.xml ] && [ -f /etc/tomcat9/web.xml ]; then
+            sudo -S rm /etc/tomcat9/tomcat-users.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat-users.xml /etc/tomcat9/tomcat-users.xml
 
-            sudo -S rm /opt/tomcat/latest/conf/server.xml
-            sudo -S cp $SCRIPT_LOCATION/configDocs/server.xml /opt/tomcat/latest/conf/server.xml
+            sudo -S rm /etc/tomcat9/server.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/server.xml /etc/tomcat9/server.xml
 
-            sudo -S rm /opt/tomcat/latest/conf/web.xml
-            sudo -S cp $SCRIPT_LOCATION/configDocs/web.xml /opt/tomcat/latest/conf/web.xml
-            sudo systemctl restart tomcat
-        else 
+            sudo -S rm /etc/tomcat9/web.xml
+            sudo -S cp $SCRIPT_LOCATION/configDocs/web.xml /etc/tomcat9/web.xml
+            sudo systemctl restart tomcat9
+        else
             echo "ERROR:"
-            echo "  Verifique las siguientes opciones de error:"
-            echo "    * Que la direccion de SCRIPT_LOCATION sea valida, es decir, que incie con / y no finalice con /"
-            echo "    * Que dentro de la localizacion a la que apunta SCRIPT_LOCATION se encuentre el directorio configDocs junto con los archivos web.xml, server.xml, tomcat-users.xml y tomcat.service"            
+            echo "  No se han encontrado los archivos de configuración de Tomcat en el sistema, por favor intente volver a ejecutar el script."
         fi
+    else
+        echo "ERROR:"
+        echo "  Verifique las siguientes opciones de error:"
+        echo "    * Que la direccion de SCRIPT_LOCATION sea valida, es decir, que incie con / y no finalice con /"
+        echo "    * Que dentro de la localizacion a la que apunta SCRIPT_LOCATION se encuentre el directorio configDocs junto con los archivos web.xml, server.xml, tomcat-users.xml y tomcat.service"
     fi
 
 }
-
 
 while getopts "hdi" option; do
     case $option in
-        h) Help
-        exit;;
-        d) Deploy
-        exit;;
-        i) Install
-        exit;;
-        \?) #Invalid Option
+    h)
+        Help
+        exit
+        ;;
+    d)
+        Deploy
+        exit
+        ;;
+    i)
+        Install
+        exit
+        ;;
+    \?) #Invalid Option
         echo "Error: Invalid Option"
         Help
-        exit;;
+        exit
+        ;;
     esac
 done

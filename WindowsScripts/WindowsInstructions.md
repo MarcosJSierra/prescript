@@ -22,7 +22,7 @@ cd C:\prescript
 Ahora con esto listo podemos proceder a ejecutar el script. El script instalara y configurara tanto Java 17, como maven y Tomcat.
 
 ```shell
-.\insatalationScriptWindows.ps1
+.\WindowsScripts\insatalationScriptWindows.ps1
 ```
 
 Una vez realizado esto, el siguiente paso seria iniciar el servicio de Tomcat dentro de Windows. Para esto:

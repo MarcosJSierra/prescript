@@ -22,16 +22,9 @@ cd C:\prescript
 Ahora con esto listo podemos proceder a ejecutar el script. El script instalara y configurara tanto Java 17, como maven y Tomcat.
 
 ```shell
-.\WindowsScripts\insatalationScriptWindows.ps1
+
+.\WindowsScripts\instalationScriptWindows.ps1
+
 ```
 
-Una vez realizado esto, el siguiente paso seria iniciar el servicio de Tomcat dentro de Windows. Para esto:
-  
-* Hacer clic en el boton de inicio.
-* Buscar "Service" en las aplicaciones
-* Dentro del GUI vamos a buscar services > Tomcat 9
-* Haremos doble click sobre el mismo.
-* Seleccionaremos "Automatico" en el incio del servicio
-* Iniciaremos el servicio
-  
-Ahora tendremos un Tomcat completamente funcional.
+Ahora tendremos un Tomcat completamente funcional e instalando OpenJDK 17 asi como Maven.

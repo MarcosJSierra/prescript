@@ -12,5 +12,10 @@ $NEWPERMISSION = New-Object System.Security.AccessControl.FileSystemAccessRule("
 $PERMISSIONS.SetAccessRule($NEWPERMISSION)
 $PERMISSIONS | Set-Acl -Path "C:\ProgramData\Tomcat9\work"
 
+$PERMISSIONS = Get-ACL -Path "C:\ProgramData\Tomcat9\webapps"
+$NEWPERMISSION = New-Object System.Security.AccessControl.FileSystemAccessRule("BUILTIN\USERS","FullControl","Allow")
+$PERMISSIONS.SetAccessRule($NEWPERMISSION)
+$PERMISSIONS | Set-Acl -Path "C:\ProgramData\Tomcat9\webapps"
+
 Set-Service -Name tomcat9 -StartupType Automatic
 Set-Service -Name tomcat9 -Status Running

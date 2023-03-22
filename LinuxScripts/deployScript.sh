@@ -120,28 +120,8 @@ Install()
             '
             sudo -K
             sudo -S $PACKAGE_MANAGER $UPDATE_COMMAND 
-            sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven
+            sudo -S $PACKAGE_MANAGER $INSTALL_COMMAND git openjdk-17-jdk openjdk-17-doc openjdk-17-jre maven tomcat9
             
-
-            : '
-                Descarga de tomcat e instalación en el sistema operativo.
-            '
-            sudo -K
-            sudo -S useradd -m -U -d /opt/tomcat -s /bin/false tomcat
-            wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz -P /tmp
-            sudo -S tar xzvf /tmp/apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt/tomcat/ 
-            sudo -S ln -s /opt/tomcat/apache-tomcat-$TOMCAT_VERSION /opt/tomcat/latest
-
-            : '
-                configuraciones del sistema para tomcat
-            '
-            sudo -K
-            sudo -S chown -R tomcat: /opt/tomcat
-            sudo -S sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
-            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat.service /etc/systemd/system/
-            sudo -S systemctl daemon-reload
-            sudo -S systemctl enable --now tomcat
-
             : '
                 Configuración de el firewall
             '

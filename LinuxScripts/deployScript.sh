@@ -11,10 +11,12 @@
     - SCRIPT_LOCATION: localizacion del script que debe tener tanto el archivo de script como la carpeta configDocs.
 
 '
-# DIRECTORY_APP="/home/marcos/Documents/BDG/Banrural/POC/0001_Automatización_empaquetado/Codigo/empleos"
+
 DIRECTORY_APP="cambiar"
 DIRECTORY_APPS_TOMCAT="/var/lib/tomcat9/webapps"
+CONFIG_SERVER_DIRECTORY="cambiar"
 SCRIPT_LOCATION="${HOME}/prescript"
+
 
 : '
     CONFIGURACION DE TOMCAT
@@ -28,7 +30,8 @@ TOMCAT_PORT=8080
     - APP_NAME: El nombre con el que se genera el archivo de la aplicación.
 
 '
-APP_NAME="aplicacionEmpleos"
+APP_NAME="cambiar"
+CONFIG_SERVER_NAME="cambiar"
 
 : '
     CONFIGURACION DE COMANDOS DEL SISTEMA
@@ -53,9 +56,6 @@ Help() {
 
 Deploy() {
 
-    if [ -f "/path/to/file" ]; then
-        echo "File \"/path/to/file\" exists"
-    fi
 
     if [ "$(mvn -v)" ]; then
         if [ -d $DIRECTORY_APP ] && [ -d $DIRECTORY_APPS_TOMCAT ]; then
@@ -96,6 +96,50 @@ Deploy() {
     fi
 
 }
+
+DeployConfigServer() {
+
+
+    if [ "$(mvn -v)" ]; then
+        if [ -d $CONFIG_SERVER_DIRECTORY ] && [ -d $DIRECTORY_APPS_TOMCAT ]; then
+            cd $CONFIG_SERVER_DIRECTORY || echo ""
+            if [ -f ./pom.xml ]; then
+
+                mvn clean install
+                ls $CONFIG_SERVER_DIRECTORY/target
+                if [ -f $CONFIG_SERVER_DIRECTORY/target/$APP_NAME.war ]; then
+                    sudo -K
+                    # sudo -S rm
+                    sudo -S cp $CONFIG_SERVER_DIRECTORY/target/$CONFIG_SERVER_NAME.war $DIRECTORY_APPS_TOMCAT
+                    if [ -f $DIRECTORY_APPS_TOMCAT/$CONFIG_SERVER_NAME.war ]; then
+                        echo "Proceso completado"
+                    fi
+                else
+                    echo "ERROR:"
+                    echo "  No se encontro el archivo ${WAR_NAME} por favor revise los siguientes puntos:"
+                    echo "    * Que se haya generado correctamente el archivo WAR"
+                    echo "    * Que se tengas las confugraciones correctas en POM.xml"
+                fi
+            else
+                echo "ERROR:"
+                echo "  No se ha encontrado nignun archivo POM.xml en el directorio ${DIRECTORY_APP}"
+            fi
+
+        else
+            echo "ERROR:"
+            echo "  No existe alguno de los siguientes directorios, por favor revise la sintaxis de la variable o bien revise que existan los directorios"
+            echo "    * ${DIRECTORY_APP}"
+            echo "    * ${DIRECTORY_APPS_TOMCAT}"
+
+        fi
+    else
+        echo "ERROR:"
+        echo "  No se ha encontrado una versión instalada de Maven, por favor instale maven y vuelva a intentar el despliegue"
+
+    fi
+
+}
+
 
 Install() {
 
@@ -148,7 +192,7 @@ Install() {
 
 }
 
-while getopts "hdi" option; do
+while getopts "hdic" option; do
     case $option in
     h)
         Help
@@ -160,6 +204,10 @@ while getopts "hdi" option; do
         ;;
     i)
         Install
+        exit
+        ;;
+    c)
+        DeployConfigServer
         exit
         ;;
     \?) #Invalid Option

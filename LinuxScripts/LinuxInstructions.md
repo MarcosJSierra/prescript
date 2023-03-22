@@ -24,7 +24,7 @@ El script como tal tiene dos funciones principales, la primera es instalar todas
 Lo primero sera obter el repositorio. Lo recomendable es clonar el repositorio en Documents ya que algunas configuraciones vienen escritas para funcionar en este directorio y requieren cambios minimos. 
 
 ```console
-   cd ~/Documents
+   cd ~/
    git clone https://github.com/MarcosJSierra/prescript.git
 ```
 
@@ -33,7 +33,7 @@ Lo primero sera obter el repositorio. Lo recomendable es clonar el repositorio e
 Este repositorio contiene dos elementos, el primero seria el script en si mismo mientras el segundo seria un folder llamado _configDocs_, en este folder se encuentran los archivos de configuración para Tomcat. Pero para que funcione es neseario hacer algunos cambios en el Script. Primero que nada necesitamos cambiar la variable [SCRIPT_LOCATION](./LinuxScripts/deployScript.sh#L17) (El enlace anterior nos lleva a la linea del script) para esto tenemos dos opciones, la primera seria verificar que lo unico que cambie con la ruta actual del script y la carpeta sea el nombre de usuario, en dado caso unciamente tendriamos que hacer este cambio. La segunda opción seria usar el comando _pwd_. 
 
 ```console
-cd ~/Documents/prescript
+cd ~/prescript
 pwd
 ```
 
@@ -54,7 +54,7 @@ Antes de ejecutar la propiedad de instalación en el Script se deben hacer algun
 Para ejecutar el Script lo unico que necesitamos, luego de los cambios anteriores, es ir al lugar donde almacenamos el Script. Si se desea cambiar el puerto de escucha de Tomcat podemos cambiar el siguiente archivo, en la linea 68, [server.xml](./configDocs/server.xml#L68) y tambien, en dado caso, debemos cambiar el script para configurar el firewall [TOMCAT_PORT](./LinuxScripts/deployScript.sh#L26). Para ejecutar el Script usremos los siguientes comandos.
 
 ```
-cd ~/Documents/prescript
+cd ~/prescript
 ./LinuxScripts/deployScript -i
 ```
 

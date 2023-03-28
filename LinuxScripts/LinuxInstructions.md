@@ -39,7 +39,7 @@ pwd
 Este comando nos mostrara en pantalla la direccion en la que nos encontramos, en esta caso deberia ser donde esta el Script, basta con seleccionar la linea y utilizar CTRL+SHIFT+C para copiarlo. Luego editaremos el script sustituyendo la ruta anterior con la nueva.  
 
 ```console
-   nano ./LinuxScripts/deployScript.sh
+   nano ./LinuxScripts/deployScript.sh -i
 ```
 
 para pegar el contenido basta con utilizar CTRL+SHIFT+V. Para guardar los cambios con nano cerraremos el editor con CTRL + X, luego presionaremos _y_ y Enter.

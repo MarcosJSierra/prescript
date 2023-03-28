@@ -163,8 +163,8 @@ Install() {
             '
         if [ -f /etc/tomcat9/tomcat-users.xml ] && [ -f /etc/tomcat9/server.xml ] && [ -f /etc/tomcat9/web.xml ]; then
 
-            sudo -S rm /etc/systemd/system/multi-user.target.wants/tomcat9.service
-            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat9.service /etc/systemd/system/multi-user.target.wants/tomcat9.service
+            sudo -S rm /lib/systemd/system/tomcat9.service
+            sudo -S cp $SCRIPT_LOCATION/configDocs/tomcat9.service /lib/systemd/system/tomcat9.service
             sudo -S systemctl daemon-reload
             sudo -S systemctl enable tomcat9
             sudo -S systemctl start tomcat9

@@ -107,7 +107,7 @@ DeployConfigServer() {
 
                 mvn clean install
                 ls $CONFIG_SERVER_DIRECTORY/target
-                if [ -f $CONFIG_SERVER_DIRECTORY/target/$APP_NAME.war ]; then
+                if [ -f $CONFIG_SERVER_DIRECTORY/target/$CONFIG_SERVER_NAME.war ]; then
                     sudo -K
                     # sudo -S rm
                     sudo -S cp $CONFIG_SERVER_DIRECTORY/target/$CONFIG_SERVER_NAME.war $DIRECTORY_APPS_TOMCAT

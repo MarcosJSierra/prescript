@@ -1,4 +1,4 @@
-choco install microsoft-openjdk17 -y
+choco install microsoft-openjdk -y
 choco install maven -y
 choco install tomcat -y
 

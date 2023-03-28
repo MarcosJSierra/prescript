@@ -5,7 +5,7 @@
 Se requiere la instalación de [Chocolatey](https://chocolatey.org/install), para esto podemos ir al enlace sugerido arriba para poder instalar el software en cuestion. Con Chocolatey instalado abriremos una ventana de PowerShell como administradores y procedemos a instalar git con chocolatey para esto vamos a ejecutar los siguientes comandos.
 
 ```shell
-Set-ExecutionPolicy -ExecutionPolicy unrestricted
+Set-ExecutionPolicy unrestricted
 choco install git -y
 ```
 

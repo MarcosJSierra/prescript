@@ -50,8 +50,9 @@ Help() {
     echo "Syntax: deployCapaMedia [-h|d|a]"
     echo "Options: "
     echo "h     Display help info"
-    echo "d     compile, package and deploy project in Tomcat 10"
+    echo "d     compile, package and deploy project in Tomcat 9"
     echo "i     install and configure all software required"
+    echo "c     compile, package and deploy config server in Tomcat 9"
 }
 
 Deploy() {
